@@ -1,5 +1,5 @@
 import { UpdateUserInput } from '@/user/dto/update-user.input';
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { GoneException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { User } from '@prisma/client';
 import { CreateUserInput } from './dto/create-user.input';
@@ -18,7 +18,10 @@ export class UserService {
 
   async getUserByName(username: string): Promise<User> {
     return this.prisma.user.findUnique({
-      where: { username },
+      where: {
+        username,
+        deletedAt: null,
+      },
     });
   }
 
@@ -26,7 +29,9 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { username },
     });
-    if (!user) throw new UnauthorizedException('해당 유저는 존재하지 않습니다', { description: 'UNAUTHORIZED' });
+
+    if (user.deletedAt !== null) throw new GoneException('탈퇴한 회원 입니다', { description: 'GONE' });
+    if (!user) throw new UnauthorizedException('존재하지 않은 회원 입니다.', { description: 'UNAUTHORIZED' });
 
     return user;
   }
