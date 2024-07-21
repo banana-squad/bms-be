@@ -1,3 +1,4 @@
+import { PrismaClientExceptionFilter } from '@/libs/filters/prisma-exception.filter';
 import type { Env } from '@/libs/types/env';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -9,6 +10,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService<Env>);
   const port = configService.get<number>('PORT');
+
+  app.useGlobalFilters(new PrismaClientExceptionFilter());
 
   await app.listen(port);
 
