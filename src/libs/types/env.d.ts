@@ -4,4 +4,4 @@ export type Env = {
   DATABASE_URL: string;
   GRAPHQL_PLAYGROUND: boolean;
   GRAPHQL_DEBUG: boolean;
-}
+};
