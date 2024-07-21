@@ -21,21 +21,21 @@ type Query {
   users: [User!]!
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
 input UpdateUserInput {
   id: ID!
-  role: Role!
+  role: UserRole!
 }
 
 type User {
   createdAt: DateTimeISO!
   deletedAt: DateTimeISO
   id: ID!
-  role: Role!
+  role: UserRole!
   updatedAt: DateTimeISO
   username: String!
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
