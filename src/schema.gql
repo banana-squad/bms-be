@@ -14,6 +14,7 @@ scalar DateTimeISO
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   deleteUser(id: String!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
@@ -23,6 +24,11 @@ type Query {
 enum Role {
   ADMIN
   USER
+}
+
+input UpdateUserInput {
+  id: ID!
+  role: Role!
 }
 
 type User {
