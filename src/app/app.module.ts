@@ -1,3 +1,5 @@
+import { AppController } from '@/app/app.controller';
+import { AppService } from '@/app/app.service';
 import { GraphQLConfigService } from '@/libs/graphql/grpahql.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -19,6 +21,7 @@ import { GraphQLConfigModule } from '@/libs/graphql/grpahql.module';
     PrismaModule,
     UserModule,
   ],
-  providers: [],
+  providers: [AppService],
+  controllers: [AppController],
 })
 export class AppModule {}
