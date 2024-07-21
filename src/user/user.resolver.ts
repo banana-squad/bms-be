@@ -18,6 +18,11 @@ export class UserResolver {
     return this.userService.getUserByName(username);
   }
 
+  @Query(() => User)
+  async loginUser(@Args('username') username: string) {
+    return this.userService.loginUser(username);
+  }
+
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.createUser(createUserInput);

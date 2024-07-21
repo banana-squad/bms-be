@@ -20,6 +20,7 @@ type Mutation {
 type Query {
   getUserByName(username: String!): User!
   getUsers: [User!]!
+  loginUser(username: String!): User!
 }
 
 input UpdateUserInput {
