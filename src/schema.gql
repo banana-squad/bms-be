@@ -20,9 +20,16 @@ type Query {
   users: [User!]!
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 type User {
   createdAt: DateTimeISO!
   deletedAt: DateTimeISO
   id: ID!
+  role: Role!
+  updatedAt: DateTimeISO
   username: String!
 }

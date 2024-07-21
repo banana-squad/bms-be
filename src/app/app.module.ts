@@ -9,9 +9,7 @@ import { GraphQLConfigModule } from '@/libs/graphql/grpahql.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-
-    }),
+    ConfigModule.forRoot(),
     GraphQLModule.forRootAsync({
       imports: [GraphQLConfigModule],
       useFactory: (graphqlConfigService: GraphQLConfigService) => graphqlConfigService.createGqlOptions(),
