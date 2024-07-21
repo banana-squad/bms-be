@@ -15,7 +15,7 @@ input GetUserInput {
   createdAt: DateTimeISO
   deletedAt: DateTimeISO
   id: ID
-  role: UserRole
+  role: UserRole = USER
   updatedAt: DateTimeISO
   username: String
 }
@@ -34,7 +34,7 @@ type Query {
 
 input UpdateUserInput {
   id: ID!
-  role: UserRole!
+  role: UserRole! = USER
 }
 
 type User {

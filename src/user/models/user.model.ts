@@ -10,7 +10,7 @@ export class User {
   @Field()
   username: string;
 
-  @Field(() => UserRole)
+  @Field(() => UserRole, { defaultValue: UserRole.USER })
   role: UserRole;
 
   @Field(() => GraphQLDateTimeISO)
