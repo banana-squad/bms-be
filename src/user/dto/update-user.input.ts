@@ -1,11 +1,5 @@
-import { UserRole } from '@/user/models/user-role.enum';
-import { Field, ID, InputType } from '@nestjs/graphql';
+import { User } from '@/user/models/user.model';
+import { InputType, PickType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateUserInput {
-  @Field(type => ID)
-  id: string;
-
-  @Field(() => UserRole)
-  role: UserRole;
-}
+export class UpdateUserInput extends PickType(User, ['id', 'role'], InputType) {}

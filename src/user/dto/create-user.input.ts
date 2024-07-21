@@ -1,7 +1,5 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { User } from '@/user/models/user.model';
+import { InputType, PickType } from '@nestjs/graphql';
 
 @InputType()
-export class CreateUserInput {
-  @Field()
-  username: string;
-}
+export class CreateUserInput extends PickType(User, ['username'], InputType) {}
