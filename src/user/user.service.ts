@@ -1,5 +1,6 @@
+import { GetUserInput } from '@/user/dto/get-user.input';
 import { UpdateUserInput } from '@/user/dto/update-user.input';
-import { GoneException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { GoneException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { User } from '@prisma/client';
 import { CreateUserInput } from './dto/create-user.input';
@@ -8,9 +9,10 @@ import { CreateUserInput } from './dto/create-user.input';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async getUsers(): Promise<User[]> {
+  async getUsers(user?: GetUserInput): Promise<User[]> {
     return this.prisma.user.findMany({
       where: {
+        ...user,
         deletedAt: null,
       },
     });
@@ -37,7 +39,12 @@ export class UserService {
   }
 
   async createUser(data: CreateUserInput): Promise<User> {
-    return this.prisma.user.create({ data });
+    return this.prisma.user.create({
+      data: {
+        ...data,
+        deletedAt: null,
+      },
+    });
   }
 
   async updateUser({ id, ...data }: UpdateUserInput): Promise<User> {

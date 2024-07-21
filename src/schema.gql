@@ -11,6 +11,15 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTimeISO
 
+input GetUserInput {
+  createdAt: DateTimeISO
+  deletedAt: DateTimeISO
+  id: ID
+  role: UserRole
+  updatedAt: DateTimeISO
+  username: String
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   deleteUser(id: String!): User!
@@ -18,8 +27,8 @@ type Mutation {
 }
 
 type Query {
-  getUserByName(username: String!): User!
-  getUsers: [User!]!
+  getUserByName(username: String!): User
+  getUsers(getUserInput: GetUserInput): [User!]!
   loginUser(username: String!): User!
 }
 
