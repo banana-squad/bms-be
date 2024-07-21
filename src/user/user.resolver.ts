@@ -9,8 +9,13 @@ export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query(() => [User])
-  async users() {
+  async getUsers() {
     return this.userService.getUsers();
+  }
+
+  @Query(() => User)
+  async getUserByName(@Args('username') username: string) {
+    return this.userService.getUserByName(username);
   }
 
   @Mutation(() => User)

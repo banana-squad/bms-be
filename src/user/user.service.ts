@@ -8,16 +8,22 @@ import { CreateUserInput } from './dto/create-user.input';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async createUser(data: CreateUserInput): Promise<User> {
-    return this.prisma.user.create({ data });
-  }
-
   async getUsers(): Promise<User[]> {
     return this.prisma.user.findMany({
       where: {
         deletedAt: null,
       },
     });
+  }
+
+  async getUserByName(username: string): Promise<User> {
+    return this.prisma.user.findUnique({
+      where: { username },
+    });
+  }
+
+  async createUser(data: CreateUserInput): Promise<User> {
+    return this.prisma.user.create({ data });
   }
 
   async updateUser({ id, ...data }: UpdateUserInput): Promise<User> {
