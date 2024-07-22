@@ -32,8 +32,8 @@ export class UserService {
       where: { username },
     });
 
-    if (user.deletedAt !== null) throw new GoneException('탈퇴한 회원 입니다', { description: 'GONE' });
     if (!user) throw new UnauthorizedException('존재하지 않은 회원 입니다.', { description: 'UNAUTHORIZED' });
+    if (user.deletedAt !== null) throw new GoneException('탈퇴한 회원 입니다', { description: 'GONE' });
 
     return user;
   }
