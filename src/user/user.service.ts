@@ -19,7 +19,7 @@ export class UserService {
   }
 
   async getUserByName(username: string): Promise<User> {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findUniqueOrThrow({
       where: {
         username,
         deletedAt: null,
@@ -28,14 +28,18 @@ export class UserService {
   }
 
   async loginUser(username: string): Promise<User> {
-    const user = await this.prisma.user.findUnique({
-      where: { username },
-    });
+    return this.prisma.user.findUniqueOrThrow({
+      where: {
+        username,
+      },
+    }).then(user => {
+      if (user.deletedAt !== null) throw new GoneException('탈퇴한 회원 입니다', { description: 'GONE' });
 
-    if (!user) throw new UnauthorizedException('존재하지 않은 회원 입니다.', { description: 'UNAUTHORIZED' });
-    if (user.deletedAt !== null) throw new GoneException('탈퇴한 회원 입니다', { description: 'GONE' });
-
-    return user;
+      return user;
+    })
+      .catch(() => {
+        throw new UnauthorizedException('존재하지 않는 회원입니다.', { description: 'UNAUTHORIZED' });
+      });
   }
 
   async createUser(data: CreateUserInput): Promise<User> {
@@ -49,15 +53,21 @@ export class UserService {
 
   async updateUser({ id, ...data }: UpdateUserInput): Promise<User> {
     return this.prisma.user.update({
-      where: { id },
+      where: {
+        id,
+      },
       data,
     });
   }
 
   async deleteUser(id: string): Promise<User> {
     return this.prisma.user.update({
-      where: { id },
-      data: { deletedAt: new Date() },
+      where: {
+        id,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
     });
   }
 }
