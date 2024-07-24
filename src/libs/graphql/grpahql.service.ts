@@ -1,6 +1,5 @@
-import { Env } from '@/libs/types/env';
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { EnvService } from '@/libs/env/env.service';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 
@@ -11,15 +10,15 @@ type OriginError = {
 };
 
 @Injectable()
-export class GraphQLConfigService {
-  constructor(private configService: ConfigService<Env>) {}
+export class GraphQLService {
+  constructor(private envService: EnvService) {}
 
-  createGqlOptions(): ApolloDriverConfig {
+  createOptions(): ApolloDriverConfig {
     return {
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
-      playground: this.configService.get<boolean>('GRAPHQL_PLAYGROUND', true),
-      debug: this.configService.get<boolean>('GRAPHQL_DEBUG', true),
+      playground: this.envService.get('GRAPHQL_PLAYGROUND'),
+      debug: this.envService.get('GRAPHQL_DEBUG'),
       formatError: (error) => {
         if (error.extensions.code === 'GRAPHQL_VALIDATION_FAILED') {
           return {

@@ -1,10 +1,20 @@
+import { EnvModule } from '@/libs/env/env.module';
+import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { GraphQLConfigService } from './grpahql.service';
+import { GraphQLModule as _GraphQLModule } from '@nestjs/graphql';
+import { GraphQLService } from './grpahql.service';
 
 @Module({
-  imports: [ConfigModule],
-  providers: [GraphQLConfigService],
-  exports: [GraphQLConfigService],
+  imports: [
+    EnvModule,
+    _GraphQLModule.forRootAsync({
+      imports: [GraphQLModule],
+      useFactory: (graphQLService: GraphQLService) => graphQLService.createOptions(),
+      inject: [GraphQLService],
+      driver: ApolloDriver,
+    }),
+  ],
+  providers: [GraphQLService],
+  exports: [GraphQLService],
 })
-export class GraphQLConfigModule {}
+export class GraphQLModule {}
