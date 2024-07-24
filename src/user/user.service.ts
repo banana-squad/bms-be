@@ -1,7 +1,7 @@
 import { GetUserInput } from '@/user/dto/get-user.input';
 import { UpdateUserInput } from '@/user/dto/update-user.input';
 import { GoneException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '@/libs/prisma/prisma.service';
 import { User } from '@prisma/client';
 import { CreateUserInput } from './dto/create-user.input';
 
