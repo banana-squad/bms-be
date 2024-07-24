@@ -1,5 +1,6 @@
 import { UserArgs } from '@/user/dto/user.args';
 import { UpdateUserInput } from '@/user/dto/update-user.input';
+import { UserRole } from '@/user/models/user-role.enum';
 import { GoneException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '@/libs/prisma/prisma.service';
 import { User } from '@prisma/client';
@@ -49,6 +50,7 @@ export class UserService {
     return this.prisma.user.create({
       data: {
         ...data,
+        role: UserRole.USER,
         deletedAt: null,
       },
     });

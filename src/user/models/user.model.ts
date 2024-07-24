@@ -9,7 +9,7 @@ export class User {
   @Field()
   username: string;
 
-  @Field(() => UserRole, { defaultValue: UserRole.USER })
+  @Field(() => UserRole)
   role: UserRole;
 
   @Field()

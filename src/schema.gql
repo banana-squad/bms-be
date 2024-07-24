@@ -17,13 +17,13 @@ type Mutation {
 
 type Query {
   getUserByName(username: String!): User
-  getUsers(createdAt: DateISO, deletedAt: DateISO, id: ID, role: UserRole = USER, updatedAt: DateISO, username: String): [User!]!
+  getUsers(createdAt: DateISO, deletedAt: DateISO, id: ID, role: UserRole, updatedAt: DateISO, username: String): [User!]!
   loginUser(username: String!): User!
 }
 
 input UpdateUserInput {
   id: ID!
-  role: UserRole! = USER
+  role: UserRole!
 }
 
 type User {
