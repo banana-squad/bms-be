@@ -1,6 +1,5 @@
 import { UserRole } from '@/user/models/user-role.enum';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { GraphQLDateTimeISO } from 'graphql-scalars';
 
 @ObjectType()
 export class User {
@@ -13,12 +12,12 @@ export class User {
   @Field(() => UserRole, { defaultValue: UserRole.USER })
   role: UserRole;
 
-  @Field(() => GraphQLDateTimeISO)
+  @Field()
   createdAt: Date;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field({ nullable: true })
   updatedAt?: Date;
 
-  @Field(() => GraphQLDateTimeISO, { nullable: true })
+  @Field({ nullable: true })
   deletedAt?: Date;
 }

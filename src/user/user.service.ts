@@ -1,4 +1,4 @@
-import { GetUserInput } from '@/user/dto/get-user.input';
+import { UserArgs } from '@/user/dto/user.args';
 import { UpdateUserInput } from '@/user/dto/update-user.input';
 import { GoneException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '@/libs/prisma/prisma.service';
@@ -9,10 +9,13 @@ import { CreateUserInput } from './dto/create-user.input';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async getUsers(user?: GetUserInput): Promise<User[]> {
+  async getUsers(user?: UserArgs): Promise<User[]> {
     return this.prisma.user.findMany({
       where: {
         ...user,
+        createdAt: {
+          gt: user?.createdAt,
+        },
         deletedAt: null,
       },
     });
